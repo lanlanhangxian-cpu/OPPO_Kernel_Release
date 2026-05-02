@@ -59,11 +59,11 @@ jobs:
           echo "Toolchains setup finished."
           /tmp/clang-11/bin/clang --version
 
-      - name: Clone Proprietary Drivers to /modules
-        run: |
-          sudo rm -rf /modules
-          sudo git clone --depth=1 --branch ${{ github.event.inputs.proprietary_branch }} \
-            ${{ github.event.inputs.proprietary_repo }} /modules
+      #- name: Clone Proprietary Drivers to /modules
+        #run: |
+         # sudo rm -rf /modules
+          #sudo git clone --depth=1 --branch ${{ github.event.inputs.proprietary_branch }} \
+           # ${{ github.event.inputs.proprietary_repo }} /modules
 
       - name: Clone Kernel Source to /kernel/msm-5.4
         run: |
@@ -71,38 +71,6 @@ jobs:
           sudo mkdir -p /kernel
           sudo git clone --depth=1 --branch ${{ github.event.inputs.kernel_branch }} \
             ${{ github.event.inputs.kernel_repo }} /kernel/msm-5.4
-
-      - name: Move Folders
-        run: |
-          echo "Current structure of /modules:"
-          ls -R /modules
-          
-          if [ -d "/modules/vendor" ]; then
-            echo "Moving /modules/vendor to /"
-            sudo mv /modules/vendor /
-          else
-            echo "Error: /modules/vendor not found!"
-            exit 1
-          fi
-          
-          if [ -d "/modules/kernel/msm-5.4/techpack" ]; then
-            echo "Moving techpack files..."
-            sudo mkdir -p /kernel/msm-5.4/techpack
-            sudo mv /modules/kernel/msm-5.4/techpack/* /kernel/msm-5.4/techpack/
-          else
-            echo "Error: /modules/kernel/msm-5.4/techpack not found!"
-            exit 1
-          fi
-          
-          sudo rm -rf /modules
-
-      - name: Fix Permissions
-        run: |
-          sudo chown -R $USER:$USER /kernel
-          sudo chmod -R 755 /kernel
-          if [ -d "/vendor" ]; then
-            sudo chown -R $USER:$USER /vendor
-          fi
 
       - name: Build Kernel (Clang 11 + GCC 4.9)
         run: |
