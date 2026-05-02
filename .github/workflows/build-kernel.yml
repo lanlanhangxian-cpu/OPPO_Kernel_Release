@@ -71,6 +71,10 @@ jobs:
           sudo mkdir -p /kernel
           sudo git clone --depth=1 --branch ${{ github.event.inputs.kernel_branch }} \
             ${{ github.event.inputs.kernel_repo }} kernel/msm-5.4
+      - name: Fix Permissions
+        run: |
+          sudo chown -R $USER:$USER kernel
+          sudo chmod -R 755 kernel
 
       - name: Build Kernel (Clang 11 + GCC 4.9)
         run: |
