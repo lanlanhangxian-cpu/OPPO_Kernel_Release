@@ -133,10 +133,10 @@ jobs:
                CLANG_TRIPLE=aarch64-linux-gnu- \
                CROSS_COMPILE=aarch64-linux-android- \
                CROSS_COMPILE_ARM32=arm-linux-androideabi- \
-               Image
+               dtbs
 
       - name: Upload Kernel Image
         uses: actions/upload-artifact@v4
         with:
           name: kernel-image
-          path: /kernel/msm-5.4/out/arch/arm64/boot/Image
+          path: /kernel/msm-5.4/out/arch/arm64/boot/dts/17107/*.dtb
