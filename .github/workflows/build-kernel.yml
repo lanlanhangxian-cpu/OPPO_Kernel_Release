@@ -70,11 +70,11 @@ jobs:
           sudo rm -rf /kernel/msm-5.4
           sudo mkdir -p /kernel
           sudo git clone --depth=1 --branch ${{ github.event.inputs.kernel_branch }} \
-            ${{ github.event.inputs.kernel_repo }} /kernel/msm-5.4
+            ${{ github.event.inputs.kernel_repo }} kernel/msm-5.4
 
       - name: Build Kernel (Clang 11 + GCC 4.9)
         run: |
-          cd /kernel/msm-5.4
+          cd kernel/msm-5.4
           
           # 设置工具链路径：Clang 11 在前，GCC 4.9 在后
           export PATH=/tmp/clang-11/bin:/tmp/gcc64/bin:/tmp/gcc32/bin:$PATH
@@ -107,4 +107,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: kernel-image
-          path: /kernel/msm-5.4/out/arch/arm64/boot/dts/17107/*.dtb
+          path: kernel/msm-5.4/out/arch/arm64/boot/dts/17107/*.dtb
